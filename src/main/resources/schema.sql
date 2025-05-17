@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `name` VARCHAR(100) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `mobile_number` VARCHAR(20) NOT NULL,
-  `created_at` DATETIME,
-  `created_by` VARCHAR(20),
+  `created_at` DATETIME NOT NULL,
+  `created_by` VARCHAR(20) NOT NULL,
   `updated_at` DATETIME,
   `updated_by` VARCHAR(20)
 );
@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `account_number` INT AUTO_INCREMENT PRIMARY KEY,
   `account_type` VARCHAR(100) NOT NULL,
   `branch_address` VARCHAR(200) NOT NULL,
-  `created_at` DATETIME,
-  `created_by` VARCHAR(20),
+  `created_at` DATETIME NOT NULL,
+  `created_by` VARCHAR(20) NOT NULL,
   `updated_at` DATETIME,
   `updated_by` VARCHAR(20)
 );
