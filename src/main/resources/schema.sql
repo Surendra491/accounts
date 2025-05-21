@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `mobile_number` VARCHAR(20) NOT NULL,
   `created_at` DATETIME NOT NULL,
   `created_by` VARCHAR(20) NOT NULL,
-  `updated_at` DATETIME,
-  `updated_by` VARCHAR(20)
+  `updated_at` DATETIME DEFAULT NULL,
+  `updated_by` VARCHAR(20) DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `accounts` (
@@ -16,6 +16,6 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `branch_address` VARCHAR(200) NOT NULL,
   `created_at` DATETIME NOT NULL,
   `created_by` VARCHAR(20) NOT NULL,
-  `updated_at` DATETIME,
-  `updated_by` VARCHAR(20)
+  `updated_at` DATETIME DEFAULT NULL,
+  `updated_by` VARCHAR(20) DEFAULT NULL
 );
