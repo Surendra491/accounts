@@ -1,9 +1,12 @@
 package com.sj.accounts.service.impl;
 
 import com.sj.accounts.constants.AccountConstants;
+import com.sj.accounts.dto.AccountsDto;
 import com.sj.accounts.dto.CustomerDto;
 import com.sj.accounts.entity.Accounts;
 import com.sj.accounts.entity.Customer;
+import com.sj.accounts.exception.ResourceNotFoundException;
+import com.sj.accounts.mapper.AccountMapper;
 import com.sj.accounts.mapper.CustomerMapper;
 import com.sj.accounts.repository.AccountsRepository;
 import com.sj.accounts.repository.CustomerRepository;
@@ -17,7 +20,7 @@ import java.util.Random;
 
 @Service
 @AllArgsConstructor
-public class AccountServiceImpl implements IAccountsService {
+public class AccountsServiceImpl implements IAccountsService {
     private AccountsRepository accountsRepository;
     private CustomerRepository customerRepository;
 
@@ -48,5 +51,18 @@ public class AccountServiceImpl implements IAccountsService {
         newAccount.setCreatedBy("Anonymous");
 
         return newAccount;
+    }
+    @Override
+    public CustomerDto fetchAccount(String mobileNumber) {
+       Customer customer= customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () ->new ResourceNotFoundException("Customer","MobileNumber",mobileNumber)
+        );
+        Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
+                () ->new ResourceNotFoundException("Account","customerId",customer.getCustomerId().toString())
+        );
+
+        CustomerDto customerDto =CustomerMapper.mapToCustomerDto(customer,new CustomerDto());
+        customerDto.setAccountsDto(AccountMapper.mapToAccountsDto(accounts, new AccountsDto()));
+        return  customerDto;
     }
 }
