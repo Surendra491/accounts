@@ -12,6 +12,7 @@ import com.sj.accounts.repository.AccountsRepository;
 import com.sj.accounts.repository.CustomerRepository;
 import com.sj.accounts.service.IAccountsService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -64,5 +65,28 @@ public class AccountsServiceImpl implements IAccountsService {
         CustomerDto customerDto =CustomerMapper.mapToCustomerDto(customer,new CustomerDto());
         customerDto.setAccountsDto(AccountMapper.mapToAccountsDto(accounts, new AccountsDto()));
         return  customerDto;
+    }
+
+    @Override
+    public boolean updateAccount(CustomerDto customerDto) {
+        boolean isUpdated = false;
+        AccountsDto accountsDto = customerDto.getAccountsDto();
+
+        if(accountsDto != null){
+            Accounts accounts = accountsRepository.findById(accountsDto.getAccountNumber()).orElseThrow(
+                    () -> new ResourceNotFoundException("Account","AccountNumber",accountsDto.getAccountNumber().toString())
+            );
+            AccountMapper.mapToAccounts(accountsDto,accounts);
+            accounts = accountsRepository.save(accounts);
+
+            Long customerId = accounts.getCustomerId();
+            Customer customer=customerRepository.findById(customerId).orElseThrow(
+                    () -> new ResourceNotFoundException("Customer","CustomerId",customerId.toString())
+            );
+            CustomerMapper.mapToCustomer(customerDto,customer);
+            customerRepository.save(customer);
+            isUpdated=true;
+        }
+        return isUpdated;
     }
 }
