@@ -12,10 +12,8 @@ import com.sj.accounts.repository.AccountsRepository;
 import com.sj.accounts.repository.CustomerRepository;
 import com.sj.accounts.service.IAccountsService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
@@ -33,8 +31,6 @@ public class AccountsServiceImpl implements IAccountsService {
        if(existingCustomer.isPresent()){
            throw new ClassCastException("Customer already registered with given Mobile Number:"+customer.getMobileNumber());
        }
-       customer.setCreatedAt(LocalDateTime.now());
-       customer.setCreatedBy("Anonymous");
         Customer savedCustomer = customerRepository.save(customer);
         Accounts newAccount = createNewAccount(savedCustomer);
         accountsRepository.save(newAccount);
@@ -48,8 +44,6 @@ public class AccountsServiceImpl implements IAccountsService {
         newAccount.setAccountNumber(randomAccNumber);
         newAccount.setAccountType(AccountConstants.SAVINGS);
         newAccount.setBranchAddress(AccountConstants.ADDRESS);
-        newAccount.setCreatedAt(LocalDateTime.now());
-        newAccount.setCreatedBy("Anonymous");
 
         return newAccount;
     }
