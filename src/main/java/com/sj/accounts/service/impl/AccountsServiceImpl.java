@@ -1,6 +1,6 @@
 package com.sj.accounts.service.impl;
 
-import com.sj.accounts.constants.AccountConstants;
+import com.sj.accounts.constants.AccountsConstants;
 import com.sj.accounts.dto.AccountsDto;
 import com.sj.accounts.dto.CustomerDto;
 import com.sj.accounts.entity.Accounts;
@@ -42,8 +42,8 @@ public class AccountsServiceImpl implements IAccountsService {
         newAccount.setCustomerId(customer.getCustomerId());
         long randomAccNumber = 1000000000L + new Random().nextInt(999999999);
         newAccount.setAccountNumber(randomAccNumber);
-        newAccount.setAccountType(AccountConstants.SAVINGS);
-        newAccount.setBranchAddress(AccountConstants.ADDRESS);
+        newAccount.setAccountType(AccountsConstants.SAVINGS);
+        newAccount.setBranchAddress(AccountsConstants.ADDRESS);
 
         return newAccount;
     }
